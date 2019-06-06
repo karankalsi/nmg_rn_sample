@@ -1,7 +1,7 @@
 export default interface User {
     id:number,
-    name:String,
-    email:String,
-    mobile:String,
-    address:String
+    name:string,
+    email:string,
+    mobile:string,
+    address:string
 }

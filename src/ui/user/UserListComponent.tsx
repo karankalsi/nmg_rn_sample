@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList,Linking, TouchableOpacity } from 'react-native'
 import User from '../../data/model/User'
 import { getUserList } from '../../data/local/AsyncStorageHelper';
 import { whiteSmoke } from '../../util/colors';
@@ -26,8 +26,12 @@ state : State={
         return(
             <View style={styles.userItemContainer}>
             <Text style={[styles.userInfo,{fontWeight:'600'}]}>{item.name}</Text>
+            <TouchableOpacity onPress={()=>this.openEmailClient(item.email)}>
             <Text style={[styles.userInfo,{fontWeight:'400'}]}>{item.email}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.openDialer(item.mobile)}>
             <Text style={[styles.userInfo,{fontWeight:'400'}]}>{item.mobile}</Text>
+            </TouchableOpacity >
             <Text style={[styles.userInfo,{fontWeight:'400'}]}>{item.address}</Text>
                 </View>
         )
@@ -37,6 +41,23 @@ state : State={
         getUserList()
         .then(userList=>this.setState({userList}))
     }
+
+    openDialer=(mobile:string)=>{
+        this.openUrl(`tel:+91${mobile}`)
+    }
+    openEmailClient=(email:string)=>{
+        this.openUrl(`mailto:${email}`)
+    }
+    
+    openUrl = (url:string) =>{
+        Linking.canOpenURL(url).then(supported => {
+        if (!supported) {
+         console.log('Can\'t handle url: ' + url);
+        } else {
+         return Linking.openURL(url);
+        }
+      }).catch(err => console.error('An error occurred', err));
+     }
 }
 
 export default UserListComponent;
