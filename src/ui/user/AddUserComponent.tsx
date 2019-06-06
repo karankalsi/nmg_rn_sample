@@ -12,10 +12,10 @@ import {  NavigationScreenProps  } from 'react-navigation';
 
 class AddUserComponent extends React.Component<Props>
 {
- _nameInput =undefined;
- _emailInput=undefined;
- _mobileInput=undefined;
- _addressInput=undefined;
+ private _nameInput:React.RefObject<AppTextInput> = React.createRef();
+ private _emailInput:React.RefObject<AppTextInput> = React.createRef();
+ private _mobileInput:React.RefObject<AppTextInput> = React.createRef();
+ private _addressInput:React.RefObject<AppTextInput>= React.createRef();
  initialState={
     name:'',
     email:'',
@@ -25,6 +25,7 @@ class AddUserComponent extends React.Component<Props>
  state={
     ...this.initialState
  }
+ 
     render() {
         return (
             <KeyboardAwareScrollView 
@@ -33,39 +34,39 @@ class AddUserComponent extends React.Component<Props>
             >
             <View style={styles.formContainer}>
             <AppTextInput
-            ref={reference=>this._nameInput=reference}
+            ref={this._nameInput}
             style={styles.formTextInput}
             label={'Name'}
             value={this.state.name}
             placeholder={'Enter user name'}
             onChangeText={(text)=>this.setState({name:text})}
-            onSubmitEditing={()=>this._emailInput.focus()}
+            onSubmitEditing={()=>(this._emailInput.current as AppTextInput).focus()}
             returnKeyType={'next'}
             />
              <AppTextInput
-             ref={reference=>this._emailInput=reference}
+             ref={this._emailInput}
             style={styles.formTextInput}
             label={'Email'}
             value={this.state.email}
             placeholder={'Enter user email'}
-            onSubmitEditing={()=>this._mobileInput.focus()}
+            onSubmitEditing={()=>(this._mobileInput.current as AppTextInput).focus()}
             onChangeText={(text)=>this.setState({email:text})}
             returnKeyType={'next'}
             keyboardType={'email-address'}
             />
             <AppTextInput
-            ref={reference=>this._mobileInput=reference}
+            ref={this._mobileInput}
             style={styles.formTextInput}
             label={'Mobile'}
             value={this.state.mobile}
             placeholder={'Enter user mobile'}
             onChangeText={(text)=>this.setState({mobile:text})}
-            onSubmitEditing={()=>this._addressInput.focus()}
+            onSubmitEditing={()=>(this._addressInput.current as AppTextInput).focus()}
             returnKeyType={'next'}
             keyboardType={'phone-pad'}
             />
              <AppTextInput
-             ref={reference=>this._addressInput=reference}
+             ref={this._addressInput}
             style={styles.formTextInput}
             label={'Address'}
             value={this.state.address}
